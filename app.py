@@ -1,7 +1,3 @@
-##########################
-###### Connor Noble ######
-##########################
-
 from bs4 import BeautifulSoup
 import requests
 from googlesearch import search
@@ -46,13 +42,6 @@ if functionality == 1:
                 "artist": artist,
                 "rank": rank,
             })
-            # print(f'''
-            # Title: {title}
-            # Artist: {artist}
-            # Rank: {rank}
-            # ''')
-
-    # print(song_list)
 
     # ------------------ GOOGLE SEARCHING ------------------
     option = int(input("1) Open all \n2) Print songs\n>> "))
