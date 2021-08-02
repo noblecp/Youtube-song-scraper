@@ -27,8 +27,6 @@ if functionality == 1:
 
     # Request input from user for how many songs to scrape
     num_songs = int(input("Enter how many top songs to view (between 1 and 100)\n>> "))
-    # num_songs = 50
-    # print("Showing top", num_songs, "song(s)...")
 
     song_list = []
 
@@ -83,30 +81,4 @@ elif functionality == 2:
             webbrowser.open(i, 2)
         else:
             print ("<< " + i)
-
-# # ------------------- YOUTUBE TO MP3 -------------------
-
-# # importing packages
-# from pytube import YouTube
-# # import os
-
-# # # url input from user
-# yt = YouTube(str(input("Enter the URL of the video you want to download: \n>> ")))
-
-# # extract only audio
-# audio = yt.streams.filter(only_audio=True)
-
-# # check for destination to save file
-# print("Enter the destination (leave blank for current directory)")
-# destination = str(input(">> ")) or '.'
-
-# # download the file
-# out_file = video.download(output_path=destination)
-
-# # save the file
-# base, ext = os.path.splitext(out_file)
-# new_file = base + '.mp3'
-# os.rename(out_file, new_file)
-
-# # result of success
-# print(yt.title + " has been successfully downloaded.")
+            
