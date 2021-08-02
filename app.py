@@ -3,13 +3,15 @@ import requests
 from googlesearch import search
 import webbrowser
 
+# ask user whether to open YouTube to MP3 downloader website or not
 if input("Open online YouTube to mp3 (y/n)?\n>> ") == "y":
     webbrowser.open("https://ytmp3.cc/downloader/", 1)
 
+# determine the functionality requested, either web scraping or individual search
 functionality = int(input("1) web scrape top songs\n2) search by song title\n>> "))
 
+# SCRAPE TOP SONGS
 if functionality == 1:
-
     # ------------------ WEB SCRAPING SONGS ------------------
     # declare url and use requests module to query the page from the url
     url = "https://www.billboard.com/charts/hot-100"
@@ -23,7 +25,8 @@ if functionality == 1:
 
     # Request input from user for how many songs to scrape
     num_songs = int(input("Enter how many top songs to view (between 1 and 100)\n>> "))
-
+    
+    # store songs in array
     song_list = []
 
     # loop through each song and display relavent data per song
@@ -61,8 +64,8 @@ if functionality == 1:
             for i in result:
                 print ("<< " + i)
 
+# SEARCH BY SONG
 elif functionality == 2:
-    # SEARCH BY SONG NAME
     query = input("Search song by title\n>> ")
     result = search(query, num_results=1)
     for i in result:
