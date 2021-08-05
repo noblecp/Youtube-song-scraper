@@ -52,11 +52,6 @@ def scrapeTopYouTubeVideo(user_input):
     
     return "https://www.youtube.com/watch?v=" + video_ids[0]
 
-def downloadYouTubeVideoWithUserInput():
-    user_input = str(input('Enter YouTube video to scrape then download:\n>>'))
-    video_url = scrapeTopYouTubeVideo(user_input)
-    downloadYouTubeVideoFromURL(video_url)
-    
 def downloadYouTubeVideoFromURL(youtube_url, destination_path='.'):
     yt = YouTube(youtube_url)
     
@@ -73,3 +68,8 @@ def downloadYouTubeVideoFromURL(youtube_url, destination_path='.'):
 
     # result of success
     print(yt.title + " has been successfully downloaded.")
+    
+def downloadYouTubeVideoWithUserInput():
+    user_input = str(input('Enter YouTube video to scrape then download:\n>>'))
+    video_url = scrapeTopYouTubeVideo(user_input)
+    downloadYouTubeVideoFromURL(video_url)
