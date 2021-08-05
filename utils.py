@@ -22,7 +22,8 @@ def scrapeBillboard():
     for song in scraped_songs:
         song_info = getBillboardSongInfo(song)
         full_song_name = song_info['artist'] + " " + song_info['title']
-        print(full_song_name)
+        yt_video_url = scrapeTopYouTubeVideo(full_song_name)
+        downloadYouTubeVideoFromURL(yt_video_url)
         
         total_scraped += 1
         if(total_scraped == num_songs_to_scrape):
@@ -43,21 +44,17 @@ def getBillboardSongInfo(song):
     return song_info
 
 
-def scrapeTopYouTubeVideo(search_keyword):
-    search_keyword = search_keyword.replace(" ", "+")
+def scrapeTopYouTubeVideo(user_input):
+    search_keyword = user_input.replace(" ", "+")
     youtube_url = 'https://www.youtube.com/results?search_query=' + search_keyword
-    print(youtube_url)
     html = urllib.request.urlopen(youtube_url)
     video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
     
     return "https://www.youtube.com/watch?v=" + video_ids[0]
 
-def scrapeTopYouTubeVideoWithInput():
-    search_keyword = str(input('Enter YouTube video to scrape then download:\n>>'))
-    scrapeTopYouTubeVideo(search_keyword)
-
 def downloadYouTubeVideoWithUserInput():
-    video_url = scrapeTopYouTubeVideoWithInput()
+    user_input = str(input('Enter YouTube video to scrape then download:\n>>'))
+    video_url = scrapeTopYouTubeVideo(user_input)
     downloadYouTubeVideoFromURL(video_url)
     
 def downloadYouTubeVideoFromURL(youtube_url, destination_path='.'):
