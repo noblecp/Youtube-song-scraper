@@ -8,6 +8,7 @@ The project uses a virtual environment for easy dependency tracking.
 Tutorial on using virtual environments: https://www.youtube.com/watch?v=APOPm01BVrk
 
 **Steps to setup:**
-1. Start virtual environment from project root: 'venv\Scripts\activate.bat'
-2. Install dependencies: 'pip install -r requirements.txt'
-3. Type 'pip list' and the dependencies from your requirements.txt file should be listed
+1. Make the virtual environment with 'python -m venv venv'
+2. Start virtual environment from project root: 'venv\Scripts\activate.bat'
+3. Install dependencies: 'pip install -r requirements.txt'
+4. Type 'pip list' and the dependencies from your requirements.txt file should be listed
