@@ -43,6 +43,42 @@ def getBillboardSongInfo(song):
     
     return song_info
 
+def scrapeSummerSongs():
+    # Scrape songs
+    sumer_songs_url = "https://www.billboard.com/charts/summer-songs"
+    html = requests.get(sumer_songs_url)
+    soup = BeautifulSoup(html.text, "lxml")
+    scraped_songs = soup.findAll("div", class_="chart-list-item")
+
+    num_songs_to_scrape = int(
+        input("Enter top # of songs to scrape then download(between 1 and 20)\n>> "))
+
+    total_scraped = 0
+    song_list = []
+    for song in scraped_songs:
+        song_info = getSummerSongInfo(song)
+        full_song_name = song_info['artist'] + " " + song_info['title']
+        yt_video_url = scrapeTopYouTubeVideo(full_song_name)
+        downloadYouTubeVideoFromURL(yt_video_url)
+        
+        total_scraped += 1
+        if(total_scraped == num_songs_to_scrape):
+            return
+
+def getSummerSongInfo(song):
+    # rank = song.find("span", class_="chart-element__rank__number").text.strip()
+    title = song.find("span",
+                      class_="chart-list-item__title-text").text.strip()
+    artist = song.find(
+        "div", class_="chart-list-item__artist").text.strip()
+
+    song_info = {
+        "title": title,
+        "artist": artist,
+    }
+    
+    return song_info
+
 
 def scrapeTopYouTubeVideo(user_input):
     search_keyword = user_input.replace(" ", "+")
@@ -52,7 +88,7 @@ def scrapeTopYouTubeVideo(user_input):
     
     return "https://www.youtube.com/watch?v=" + video_ids[0]
 
-def downloadYouTubeVideoFromURL(youtube_url, destination_path='.'):
+def downloadYouTubeVideoFromURL(youtube_url, destination_path='./downloads'):
     yt = YouTube(youtube_url)
     
     # extract only audio

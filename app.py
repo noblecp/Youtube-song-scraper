@@ -12,7 +12,9 @@ def showChoices():
         'Download by Artist + Song Title':
         'utils.downloadYouTubeVideoWithUserInput()',
         'Scrape and download from Billboard Top 100':
-        'utils.scrapeBillboard()'
+        'utils.scrapeBillboard()',
+        'Scrape and download from Songs of the Summer':
+        'utils.scrapeSummerSongs()'
     }
 
     # Increment index by 1 to make it more user-friendly
