@@ -7,6 +7,7 @@ from pytube import YouTube
 import os
 
 
+# BILLBOARD HOT 100 ----------------------------------------------------------------
 def scrapeBillboard():
     # Scrape songs
     billboard_url = "https://www.billboard.com/charts/hot-100"
@@ -43,6 +44,7 @@ def getBillboardSongInfo(song):
     
     return song_info
 
+# SUMMER SONGS ----------------------------------------------------------------
 def scrapeSummerSongs():
     # Scrape songs
     sumer_songs_url = "https://www.billboard.com/charts/summer-songs"
@@ -66,7 +68,7 @@ def scrapeSummerSongs():
             return
 
 def getSummerSongInfo(song):
-    # rank = song.find("span", class_="chart-element__rank__number").text.strip()
+    # rank = song.find("DIV", class_="chart-list-item__rank ").text.strip()
     title = song.find("span",
                       class_="chart-list-item__title-text").text.strip()
     artist = song.find(
@@ -79,7 +81,7 @@ def getSummerSongInfo(song):
     
     return song_info
 
-
+# UTILS ------------------------------------------------------------------------------------
 def scrapeTopYouTubeVideo(user_input):
     search_keyword = user_input.replace(" ", "+")
     youtube_url = 'https://www.youtube.com/results?search_query=' + search_keyword
@@ -111,13 +113,13 @@ def downloadYouTubeVideoWithUserInput():
     downloadYouTubeVideoFromURL(video_url)
 
 
-
+# CHART SELECTION -----------------------------------------------------------------------------
 def scrapeByChart():
     choices = {
-        'Billboard Top 100':
-        'scrapeBillboard()',
         'Songs of the Summer':
-        'scrapeSummerSongs()'
+        'scrapeSummerSongs()',
+        'Billboard Hot Top 100':
+        'scrapeBillboard()',
     }
 
     # Increment index by 1 to make it more user-friendly
