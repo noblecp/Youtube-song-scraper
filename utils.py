@@ -109,3 +109,22 @@ def downloadYouTubeVideoWithUserInput():
     user_input = str(input('Enter YouTube video to scrape then download:\n>>'))
     video_url = scrapeTopYouTubeVideo(user_input)
     downloadYouTubeVideoFromURL(video_url)
+
+
+
+def scrapeByChart():
+    choices = {
+        'Billboard Top 100':
+        'scrapeBillboard()',
+        'Songs of the Summer':
+        'scrapeSummerSongs()'
+    }
+
+    # Increment index by 1 to make it more user-friendly
+    for index, (key, value) in enumerate(choices.items()):
+        print(index + 1, ': ', key)
+
+    choices_list = list(choices)
+    user_choice = int(input('Enter a choice: '))
+
+    eval(choices[choices_list[user_choice - 1]])
