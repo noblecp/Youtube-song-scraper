@@ -11,10 +11,8 @@ def showChoices():
     choices = {
         'Download by Artist + Song Title':
         'utils.downloadYouTubeVideoWithUserInput()',
-        'Scrape and download from Billboard Top 100':
-        'utils.scrapeBillboard()',
-        'Scrape and download from Songs of the Summer':
-        'utils.scrapeSummerSongs()'
+        'Scrape and download from a specific chart':
+        'utils.scrapeByChart()',
     }
 
     # Increment index by 1 to make it more user-friendly
@@ -23,6 +21,7 @@ def showChoices():
 
     choices_list = list(choices)
     user_choice = int(input('Enter a choice: '))
+    
     # Decrement by 1 to match list index
     eval(choices[choices_list[user_choice - 1]])
 
