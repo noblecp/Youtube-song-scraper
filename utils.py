@@ -3,9 +3,13 @@ import requests
 from bs4 import BeautifulSoup
 import urllib.request
 import re
-from pytube import YouTube
+import subprocess
 import os
 
+# Constants
+YTDL_TITLE = '%(title)s.%(ext)s'
+CURRENT_DIRECTORY = os.path.abspath("downloads")
+CURRENT_DIRECTORY = os.path.join(CURRENT_DIRECTORY, YTDL_TITLE)
 
 # BILLBOARD HOT 100 ----------------------------------------------------------------
 def scrapeBillboard():
@@ -31,7 +35,6 @@ def scrapeBillboard():
             return
 
 def getBillboardSongInfo(song):
-    # rank = song.find("span", class_="chart-element__rank__number").text.strip()
     title = song.find("span",
                       class_="chart-element__information__song").text.strip()
     artist = song.find(
@@ -46,7 +49,7 @@ def getBillboardSongInfo(song):
 
 # SUMMER SONGS ----------------------------------------------------------------
 def scrapeSummerSongs():
-    # Scrape songs
+    # Scrape songs from website
     sumer_songs_url = "https://www.billboard.com/charts/summer-songs"
     html = requests.get(sumer_songs_url)
     soup = BeautifulSoup(html.text, "lxml")
@@ -83,32 +86,28 @@ def getSummerSongInfo(song):
 
 # UTILS ------------------------------------------------------------------------------------
 def scrapeTopYouTubeVideo(user_input):
-    search_keyword = user_input.replace(" ", "+")
-    youtube_url = 'https://www.youtube.com/results?search_query=' + search_keyword
-    html = urllib.request.urlopen(youtube_url)
-    video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
-    
-    return "https://www.youtube.com/watch?v=" + video_ids[0]
+    try:
+        search_keyword = user_input.replace(" ", "+")
+        youtube_url = 'https://www.youtube.com/results?search_query=' + search_keyword
+        html = urllib.request.urlopen(youtube_url)
+        video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
+        
+        print("Found YouTube video for: ", user_input)
+        return "https://www.youtube.com/watch?v=" + video_ids[0]
+    except:
+        print("Failed to find video for: ", user_input);
 
-def downloadYouTubeVideoFromURL(youtube_url, destination_path='./downloads'):
-    yt = YouTube(youtube_url)
-    
-    # extract only audio
-    video = yt.streams.filter(only_audio=True).first()
-
-    # download the file
-    out_file = video.download(output_path=destination_path)
-
-    # save the file
-    base, ext = os.path.splitext(out_file)
-    new_file = base + '.mp3'
-    os.rename(out_file, new_file)
-
-    # result of success
-    print(yt.title + " has been successfully downloaded.")
+def downloadYouTubeVideoFromURL(youtube_url):
+    try:
+        print("Downloading video..")
+        command = "youtube-dl -o " + CURRENT_DIRECTORY + " --extract-audio --audio-format mp3 " + youtube_url
+        download_code = subprocess.call(command, shell=True)  
+        print("Download successful!")
+    except: 
+        print("Download failed.")
     
 def downloadYouTubeVideoWithUserInput():
-    user_input = str(input('Enter YouTube video to scrape then download:\n>>'))
+    user_input = str(input('Enter YouTube video name to scrape then download:\n>>'))
     video_url = scrapeTopYouTubeVideo(user_input)
     downloadYouTubeVideoFromURL(video_url)
 
