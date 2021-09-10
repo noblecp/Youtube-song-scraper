@@ -7,9 +7,7 @@ import subprocess
 import os
 
 # Constants
-YTDL_TITLE = '%(title)s.%(ext)s'
 CURRENT_DIRECTORY = os.path.abspath("downloads")
-CURRENT_DIRECTORY = os.path.join(CURRENT_DIRECTORY, YTDL_TITLE)
 
 # BILLBOARD HOT 100 ----------------------------------------------------------------
 def scrapeBillboard():
@@ -85,6 +83,15 @@ def getSummerSongInfo(song):
     return song_info
 
 # UTILS ------------------------------------------------------------------------------------
+def downloadYouTubeVideoWithUserInput():
+    user_input = str(input('Enter YouTube video name to scrape then download:\n>>'))
+    video_url = scrapeTopYouTubeVideo(user_input)
+    downloadYouTubeVideoFromURL(video_url, user_input)
+    
+def downloadYouTubeVideoWithString(string):
+    video_url = scrapeTopYouTubeVideo(string)
+    downloadYouTubeVideoFromURL(video_url, string)
+    
 def scrapeTopYouTubeVideo(user_input):
     try:
         search_keyword = user_input.replace(" ", "+")
@@ -97,21 +104,28 @@ def scrapeTopYouTubeVideo(user_input):
     except:
         print("Failed to find video for: ", user_input);
 
-def downloadYouTubeVideoFromURL(youtube_url):
+def downloadYouTubeVideoFromURL(youtube_url, user_input):
     try:
         print("Downloading video..")
-        command = "youtube-dl -o " + CURRENT_DIRECTORY + " --extract-audio --audio-format mp3 " + youtube_url
+        file_name = user_input.replace(" ", "_").title() + ".mp4"
+        download_path = os.path.join(CURRENT_DIRECTORY, file_name)
+        print(download_path)
+        command = "youtube-dl -o " + download_path + " --extract-audio --audio-format mp3 " + youtube_url
         download_code = subprocess.call(command, shell=True)  
         print("Download successful!")
     except: 
         print("Download failed.")
+        
+        
+# FILE DOWNLOAD -------------------------------------------------------------------------
+def downloadFromTextFile():
+    print("Downloading songs from text file..")
+    text_file = open('song_list.txt', 'r')
+    songs = text_file.readlines()
     
-def downloadYouTubeVideoWithUserInput():
-    user_input = str(input('Enter YouTube video name to scrape then download:\n>>'))
-    video_url = scrapeTopYouTubeVideo(user_input)
-    downloadYouTubeVideoFromURL(video_url)
-
-
+    for song in songs:
+        downloadYouTubeVideoWithString(song.strip())
+    
 # CHART SELECTION -----------------------------------------------------------------------------
 def scrapeByChart():
     choices = {

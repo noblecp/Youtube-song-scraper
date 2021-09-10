@@ -6,7 +6,9 @@ import os
 
 
 def main():
-    showChoices()
+    while(True):
+        showChoices()
+        
 
 def showChoices():
     choices = {
@@ -14,6 +16,8 @@ def showChoices():
         'utils.downloadYouTubeVideoWithUserInput()',
         'Scrape and download from a specific chart':
         'utils.scrapeByChart()',
+        'Download songs from text file':
+        'utils.downloadFromTextFile()',
     }
     
     print("---------------------------")
