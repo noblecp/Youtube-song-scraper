@@ -94,7 +94,7 @@ def downloadYouTubeVideoWithString(string):
     
 def scrapeTopYouTubeVideo(user_input):
     try:
-        search_keyword = user_input.replace(" ", "+")
+        search_keyword = user_input.replace(" ", "_")
         youtube_url = 'https://www.youtube.com/results?search_query=' + search_keyword
         html = urllib.request.urlopen(youtube_url)
         video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
@@ -110,6 +110,7 @@ def downloadYouTubeVideoFromURL(youtube_url, user_input):
         file_name = user_input.replace(" ", "_").title() + ".mp4"
         download_path = os.path.join(CURRENT_DIRECTORY, file_name)
         print(download_path)
+	# --rm-cache-dir
         command = "youtube-dl -o " + download_path + " --extract-audio --audio-format mp3 " + youtube_url
         download_code = subprocess.call(command, shell=True)  
         print("Download successful!")
